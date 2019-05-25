@@ -4,7 +4,6 @@ import br.unisinos.parthenos.injector.annotation.Language;
 import br.unisinos.parthenos.injector.annotation.Model;
 import br.unisinos.parthenos.injector.annotation.Name;
 import br.unisinos.parthenos.injector.annotation.Target;
-import br.unisinos.parthenos.injector.enumeration.SourceLanguage;
 import br.unisinos.parthenos.injector.exception.AttributeNotFoundException;
 import br.unisinos.parthenos.injector.injector.model.java.AccessorModel;
 import br.unisinos.parthenos.injector.representation.Text;
@@ -20,7 +19,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import java.util.List;
 
 @Name("setter")
-@Language(SourceLanguage.JAVA)
+@Language("java")
 @Model(AccessorModel.class)
 @Target(CompilationUnit.class)
 public class SetterInjector extends AccessorInjector<AccessorModel> {

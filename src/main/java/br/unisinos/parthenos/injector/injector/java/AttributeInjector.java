@@ -4,7 +4,6 @@ import br.unisinos.parthenos.injector.annotation.Language;
 import br.unisinos.parthenos.injector.annotation.Model;
 import br.unisinos.parthenos.injector.annotation.Name;
 import br.unisinos.parthenos.injector.annotation.Target;
-import br.unisinos.parthenos.injector.enumeration.SourceLanguage;
 import br.unisinos.parthenos.injector.injector.Injector;
 import br.unisinos.parthenos.injector.injector.model.java.AttributeModel;
 import com.github.javaparser.ast.CompilationUnit;
@@ -12,7 +11,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 @Name("attribute")
-@Language(SourceLanguage.JAVA)
+@Language("java")
 @Model(AttributeModel.class)
 @Target(CompilationUnit.class)
 public class AttributeInjector extends Injector<CompilationUnit, AttributeModel> {

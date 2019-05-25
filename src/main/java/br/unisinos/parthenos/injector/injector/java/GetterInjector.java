@@ -4,12 +4,14 @@ import br.unisinos.parthenos.injector.annotation.Language;
 import br.unisinos.parthenos.injector.annotation.Model;
 import br.unisinos.parthenos.injector.annotation.Name;
 import br.unisinos.parthenos.injector.annotation.Target;
-import br.unisinos.parthenos.injector.enumeration.SourceLanguage;
 import br.unisinos.parthenos.injector.exception.AttributeNotFoundException;
 import br.unisinos.parthenos.injector.injector.model.java.AccessorModel;
 import br.unisinos.parthenos.injector.representation.Text;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.Type;
@@ -17,7 +19,7 @@ import com.github.javaparser.ast.type.Type;
 import java.util.List;
 
 @Name("getter")
-@Language(SourceLanguage.JAVA)
+@Language("java")
 @Model(AccessorModel.class)
 @Target(CompilationUnit.class)
 public class GetterInjector extends AccessorInjector<AccessorModel> {
