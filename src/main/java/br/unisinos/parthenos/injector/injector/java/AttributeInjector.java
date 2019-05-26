@@ -4,11 +4,16 @@ import br.unisinos.parthenos.injector.annotation.Language;
 import br.unisinos.parthenos.injector.annotation.Model;
 import br.unisinos.parthenos.injector.annotation.Name;
 import br.unisinos.parthenos.injector.annotation.Target;
+import br.unisinos.parthenos.injector.enumeration.Status;
+import br.unisinos.parthenos.injector.exception.CannotCreateAttributeException;
 import br.unisinos.parthenos.injector.injector.Injector;
 import br.unisinos.parthenos.injector.injector.model.java.AttributeModel;
+import br.unisinos.parthenos.injector.result.InjectResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+
+import java.io.File;
 
 @Name("attribute")
 @Language("java")
@@ -38,13 +43,15 @@ public class AttributeInjector extends Injector<CompilationUnit, AttributeModel>
   }
 
   @Override
-  public boolean inject(CompilationUnit parsedSource) {
+  public InjectResult<CompilationUnit> inject(CompilationUnit parsedSource, File sourceFile) {
     final ClassOrInterfaceDeclaration classDefinition = this.getTargetClass(parsedSource);
 
-    if (!this.canAddAttribute(classDefinition)) { return false; }
+    if (!this.canAddAttribute(classDefinition)) {
+      throw new CannotCreateAttributeException(this.getModel().getName(), this.getModel().getTargetClassName());
+    }
 
     classDefinition.addField(this.getModel().getType(), this.getModel().getName(), this.getModel().getModifiers());
 
-    return true;
+    return new InjectResult<>(Status.SUCCESS, parsedSource, sourceFile);
   }
 }

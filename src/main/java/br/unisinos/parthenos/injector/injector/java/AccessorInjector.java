@@ -1,8 +1,11 @@
 package br.unisinos.parthenos.injector.injector.java;
 
+import br.unisinos.parthenos.injector.enumeration.Status;
 import br.unisinos.parthenos.injector.exception.AttributeNotFoundException;
+import br.unisinos.parthenos.injector.exception.CannotCreateAccessorException;
 import br.unisinos.parthenos.injector.injector.Injector;
 import br.unisinos.parthenos.injector.injector.model.java.AccessorModel;
+import br.unisinos.parthenos.injector.result.InjectResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
@@ -10,6 +13,8 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.VoidType;
+
+import java.io.File;
 
 public abstract class AccessorInjector<M extends AccessorModel> extends Injector<CompilationUnit, M> {
   public AccessorInjector(M model) {
@@ -101,13 +106,15 @@ public abstract class AccessorInjector<M extends AccessorModel> extends Injector
   }
 
   @Override
-  public boolean inject(CompilationUnit parsedSource) {
+  public InjectResult<CompilationUnit> inject(CompilationUnit parsedSource, File sourceFile) {
     final ClassOrInterfaceDeclaration classDeclaration = this.getTargetClass(parsedSource);
 
-    if (!this.canAddMethod(classDeclaration)) { return false; }
+    if (!this.canAddMethod(classDeclaration)) {
+      throw new CannotCreateAccessorException(this.getModel().getAttributeName(), this.getModel().getClassName());
+    }
 
     this.addMethod(classDeclaration);
 
-    return true;
+    return new InjectResult<>(Status.SUCCESS, parsedSource, sourceFile);
   }
 }
