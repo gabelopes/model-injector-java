@@ -97,6 +97,10 @@ public class PackageResolver {
       return this.getFolderForPackage();
     }
 
+    if (packageParts.empty()) {
+      return initialFolder;
+    }
+
     final File packageFolder = this.findPackageFolder(initialFolder, packageParts);
 
     if (packageFolder == null) {
